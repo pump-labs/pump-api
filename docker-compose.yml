@@ -1,0 +1,36 @@
+version: "3"
+services:
+  app:
+    container_name: hola-server-app
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/hola_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: hola-db-pw
+      FLYWAY_URL: jdbc:mysql://mysqldb:3306/hola_db
+      FLYWAY_USER: admin
+      FLYWAY_PASSWORD: hola-db-pw
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    depends_on:
+      - mysqldb
+    restart: always
+
+  mysqldb:
+    container_name: hola-local-mysql
+#    platform: linux/amd64
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: hola_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: hola-db-pw
+      MYSQL_ROOT_PASSWORD: hola-root-db-pw
+    volumes:
+#      - ./db/data:/var/lib/mysql:rw
+      - ./mysql/conf.d:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
+    restart: always

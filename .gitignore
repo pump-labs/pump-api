@@ -4,6 +4,10 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+/db
+/src/main/resources/secrets
+**/log/*
+*.out
 
 ### STS ###
 .apt_generated
@@ -35,3 +39,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Secret Key ###
+**/secret/

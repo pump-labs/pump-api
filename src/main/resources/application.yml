@@ -1,0 +1,131 @@
+server:
+  error:
+    include-message: always
+  port: 3000
+  servlet:
+    context-path: /api
+
+spring:
+  profiles:
+    group:
+      local:
+        - local_docker_mysql
+        - common
+      development:
+        - dev_RDS
+        - common
+      production:
+        - prod_RDS
+        - common
+    include: oauth
+
+---
+spring:
+  config:
+    activate:
+      on-profile: common
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+      use-new-id-generator-mappings: false
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+#kakao
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ENC(7RDQutIREzg2KjhNKLL1Rs0t9hhKLb0NTtYmvNCQ0jnTz77At+QUAaevxa7fjTW4)
+            client-secret: ENC(hLdaCtaN7omaYTCH137YYqATd1zi8C3mU18GILWYAn+B4Wm2B1D8jbBpllGO2WIr)
+            scope:
+              - profile_nickname
+              - account_email
+            client-name: Kakao #꼭 있어야하는건지는 모르겠음
+            authorization-grant-type: authorization_code
+            #redirect-uri: http://localhost:3000/api/login/oauth/kakao
+            client-authentication-method: POST
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+jasypt:
+  encryptor:
+    charset: UTF-8
+    bean: jasyptStringEncryptor
+---
+spring:
+  config:
+    activate:
+      on-profile: local_docker_mysql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hola_db
+    username: admin
+    password: hola-db-pw
+  flyway:
+    enabled: true    # 임시
+    baseline-on-migrate: true
+    url: jdbc:mysql://localhost:3306/hola_db
+    user: admin
+    password: hola-db-pw
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: http://localhost:3000/api/login/oauth/kakao
+---
+spring:
+  config:
+    activate:
+      on-profile: dev_RDS
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://pump-dev-rds.c8f0ftyenjhu.ap-northeast-2.rds.amazonaws.com:3306/pump_db
+    username: admin
+    password: ENC(/cJZD1ARyKTSw/XJjt+8/51BlUPKGlhgdYqztnXKEZU=)
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    url: jdbc:mysql://pump-dev-rds.c8f0ftyenjhu.ap-northeast-2.rds.amazonaws.com:3306/pump_db
+    user: admin
+    password: ENC(Pcm8kY3Tqz5sNy4ECAzerxYvJaUrN/6Y)
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: http://52.79.190.156:3000/api/login/oauth/kakao
+---
+spring:
+  config:
+    activate:
+      on-profile: prod_RDS
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://jdbc:mysql://hola-database-prd.c8f0ftyenjhu.ap-northeast-2.rds.amazonaws.com:3306/hola_db:3306/hola_db
+    username: admin
+    password: ENC(7WUN/qb/1UYvOAtFHuv7iSRRhWGWbfCn)
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    url: jdbc:mysql://hola-database-prd.c8f0ftyenjhu.ap-northeast-2.rds.amazonaws.com:3306/hola_db
+    user: admin
+    password: ENC(7WUN/qb/1UYvOAtFHuv7iSRRhWGWbfCn)
+---
+logging:
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSS
+  level:
+    org.hibernate:SQL: debug
+    org.hibernate:type: trace
+    org.springframework.web: DEBUG
+#  config: 'classpath: logback-${spring.profiles.active}.xml'

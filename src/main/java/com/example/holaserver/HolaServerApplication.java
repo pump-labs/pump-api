@@ -2,13 +2,13 @@ package com.example.holaserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class}) // db 무시
+@SpringBootApplication
+@EnableJpaAuditing
 public class HolaServerApplication {
-
     public static void main(String[] args) {
+        System.out.println("START PUMP SERVER APPLICATION");
         SpringApplication.run(HolaServerApplication.class, args);
     }
-
 }
