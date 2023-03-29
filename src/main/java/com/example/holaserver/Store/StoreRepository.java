@@ -22,9 +22,12 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "               cos(radians(longitude)-radians(:longitude))+sin(radians(:latitude))\n" +
             "                                                        *sin(radians(latitude))))AS distance\n" +
             "FROM store\n" +
+            "WHERE removed_at IS NULL" +
             "ORDER BY distance;", nativeQuery = true)
     List<StoreByLongitudeAndLatitudeInterface> findStoreByLatitudeAndLongitude(
             @Param(value = "longitude") String longitude ,
             @Param(value = "latitude") String latitude
     );
+
+
 }
