@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,4 +28,6 @@ public class Item extends BaseTimeEntity {
     private String imgPath;
     private Boolean isHided;
     private Boolean isReady;
+    @Setter
+    private Timestamp removedAt;
 }

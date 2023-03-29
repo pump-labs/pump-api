@@ -2,6 +2,7 @@ package com.example.holaserver.Item;
 
 import com.example.holaserver.Common.response.ResponseTemplate;
 import com.example.holaserver.Item.DTO.ItemSaveBody;
+import com.example.holaserver.Item.DTO.ItemUpdateBody;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,17 @@ public class ItemController {
                 itemSaveBodies,
                 true
         ), "상품 정보 저장 성공");
+    }
+
+    @PatchMapping("/{storeId}/items")
+    public ResponseTemplate<Map<String, Object>> itemUpdate(
+            @RequestBody ItemUpdateBody[] itemUpdateBodies,
+            @PathVariable Long storeId
+            ) {
+        return new ResponseTemplate<>(itemService.updateItems(
+                storeId,
+                itemUpdateBodies
+        ), "상품 정보 수정 성공");
     }
 
     @PostMapping("/{storeId}/items/temporary-save")
