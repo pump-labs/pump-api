@@ -1,5 +1,6 @@
 package com.example.holaserver.Store.RequestStore;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
@@ -20,4 +21,14 @@ public class RequestStore {
     private Long storeId;
     private Long userId;
     private Timestamp removedAt;
+
+    @Builder
+    public RequestStore(Long storeId, Long userId){
+        this.storeId = storeId;
+        this.userId = userId;
+    }
+
+    public void removeStoreRequest() {
+        this.removedAt = new Timestamp(System.currentTimeMillis());
+    }
 }
