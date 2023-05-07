@@ -19,10 +19,6 @@ public class RequestStoreService {
     private final StoreService storeService;
     private final AuthService authService;
 
-    public Boolean checkRequestByUserId(Long storeId, Long userId){
-        return requestStoreRepository.existsByStoreIdAndUserId(storeId, userId);
-    }
-
     @Transactional
     public Map<String, Object> saveStoreRequest(StoreRequestBody storeRequestBody){
         ModelMap result = new ModelMap();
