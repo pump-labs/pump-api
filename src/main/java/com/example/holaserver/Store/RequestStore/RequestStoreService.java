@@ -11,4 +11,5 @@ public class RequestStoreService {
     public Boolean checkRequestByUserId(Long storeId, Long userId){
         return requestStoreRepository.existsByStoreIdAndUserId(storeId, userId);
     }
+
 }

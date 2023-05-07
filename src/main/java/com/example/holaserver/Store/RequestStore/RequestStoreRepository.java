@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RequestStoreRepository extends JpaRepository<RequestStore, Long> {
     Boolean existsByStoreIdAndUserId(Long storeId, Long userId);
+    Long countByStoreIdAndRemovedAtIsNull(Long storeId);
+
+
 }
