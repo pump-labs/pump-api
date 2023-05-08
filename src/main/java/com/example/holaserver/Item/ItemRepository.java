@@ -9,4 +9,5 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findItemsByStoreId(Long storeId);
     List<Item> findItemsByStoreIdAndIsReady(Long storeId, Boolean isReady);
+    Boolean existsByStoreIdAndRemovedAtIsNull(Long storeId);
 }
