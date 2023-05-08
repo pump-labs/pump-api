@@ -8,4 +8,6 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findItemsByStoreId(Long storeId);
+    List<Item> findItemsByStoreIdAndIsReady(Long storeId, Boolean isReady);
+    Boolean existsByStoreIdAndRemovedAtIsNull(Long storeId);
 }
